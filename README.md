@@ -1,8 +1,8 @@
-# VaRCalc
+# UnifiedRiskEngine
 
-A Python tool for calculating **Value at Risk (VaR)** and **Conditional Value at Risk (CVaR)** for individual stocks, multi-asset portfolios, and (as of the current phase of work) **options positions**, with an interactive Streamlit dashboard for visual analysis.
+A statistical engine that evaluates risk through metrics such as **Value at Risk (VaR)** and **Conditional Value at Risk (CVaR)** for all positions and multi-asset portfolios, as well as quantifying option risk via the Greeks. This is all displayed through an interactive Streamlit dashboard for visual analysis.
 
-VaRCalc pulls historical price data from Yahoo Finance and estimates the potential loss a position could experience over a given time horizon, using three complementary VaR methodologies plus tail-risk analysis.
+UnifiedRiskEngine pulls historical price data and end of day(EoD) data from Polygon.io (now Massive) and calculates VaR, CVaR, and Greeks using via Black-Scholes-Merton.
 
 ## Features
 
@@ -15,7 +15,7 @@ VaRCalc pulls historical price data from Yahoo Finance and estimates the potenti
 - **Diversification insights**: compares portfolio VaR against the weighted average of individual holdings to highlight diversification benefit (or hidden correlation risk)
 - **Visualizations**: return distribution histograms with VaR/CVaR overlays, method-comparison bar charts, portfolio-vs-individual risk charts, VaR-vs-CVaR tail-risk charts, rolling VaR/volatility over time, and a combined dashboard view
 - **Interactive Streamlit app**: configure tickers, weights, portfolio value, date range, and confidence level, then get a full risk report with plain-English interpretation and recommendations
-
+b
 ### Options pricing and Greeks
 
 [`src/options.py`](src/options.py) is a self-contained Black-Scholes-Merton implementation, deliberately decoupled from the VaR engine so the math can be tested and audited independently.
@@ -91,11 +91,11 @@ pip install -r requirements.txt
 
 ### API key setup
 
-Market data comes from Polygon.io. The free tier provides end-of-day data at 5 requests per minute, which is sufficient for daily-horizon VaR: one request returns an entire date range per ticker.
+Market data comes from Polygon.io (now Massive). The free tier provides end-of-day data at 5 requests per minute, which is sufficient for daily-horizon VaR: one request returns an entire date range per ticker.
 
 1. Create an account at [polygon.io](https://polygon.io/) (no card required for the free tier)
 2. From the dashboard, open **API Keys** and copy your key
-3. Under **Subscriptions**, confirm the free tiers for both **Stocks** and **Options** are active, since they are granted separately per asset class
+3. Under **Subscriptions**, confirm the free tier is active, with access to both stocks and options
 4. Create a `.env` file in the project root:
 
 ```
@@ -153,7 +153,7 @@ See `requirements.txt` for pinned versions.
 
 ## Project Status
 
-This project is under active development. Core VaR/CVaR calculations and visualizations are functional; The API for pulling data has switched from yfinance to Polygon.io (now Massive). The project will also be introducing risk calculations for options, focusing on calculating theoretical value of the option and assessing general risk levels and VaR based on the Greeks generated through the Black-Scholes formula.
+This project is under active development. Core VaR/CVaR calculations and visualizations are functional; The API for pulling data has switched from yfinance to Polygon.io (now Massive). The project is currently introducing risk calculations for options, focusing on assessing risk levels (using tiers) using the Greeks generated through Black-Scholes-Merton and VaR/CVaR calculations.
 
 ## Disclaimer
 
