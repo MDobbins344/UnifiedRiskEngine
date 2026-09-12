@@ -9,9 +9,6 @@ seaborn==0.12.2
 # statistical analysis
 scipy==1.11.1
 
-# financial data retrieval
-yfinance==1.2.0
-
 # UI framework
 streamlit==1.28.0
 

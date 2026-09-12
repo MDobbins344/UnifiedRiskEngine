@@ -638,6 +638,6 @@ st.markdown("""
 <div style='text-align: center; color: #666; padding: 2rem;'>
     <p><strong>VaR Calculator</strong> | Built with Streamlit & Python</p>
     <p>Educational tool for demonstrating financial risk analysis concepts</p>
-    <p style='font-size: 0.8rem;'>Data sourced from Yahoo Finance | Past performance does not guarantee future results</p>
+    <p style='font-size: 0.8rem;'>Data sourced from Polygon.io | Past performance does not guarantee future results</p>
 </div>
 """, unsafe_allow_html=True)

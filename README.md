@@ -2,7 +2,7 @@
 
 A Python tool for calculating **Value at Risk (VaR)** and **Conditional Value at Risk (CVaR)** for individual stocks, multi-asset portfolios, and (as of the current phase of work) **options positions**, with an interactive Streamlit dashboard for visual analysis.
 
-VaRCalc pulls historical price data from Yahoo Finance and estimates the potential loss a position could experience over a given time horizon, using three complementary VaR methodologies plus tail-risk analysis.
+VaRCalc pulls historical price data from Polygon.io and estimates the potential loss a position could experience over a given time horizon, using three complementary VaR methodologies plus tail-risk analysis.
 
 ## Features
 
@@ -60,7 +60,9 @@ VaRCalc/
 │   ├── app.py              # Streamlit application (main entry point)
 │   └── components.py       # (reserved for reusable UI components)
 ├── src/
-│   ├── data_processing.py  # DataProcessor: fetches prices via yfinance, computes returns
+│   ├── config.py           # API key loading and project-wide numeric defaults
+│   ├── polygon_client.py   # Polygon REST access: rate limiting, typed failures
+│   ├── data_processing.py  # DataProcessor: retrieves prices, computes returns
 │   ├── calculations.py     # Historical, Parametric, Monte Carlo VaR and CVaR
 │   ├── visualizations.py   # Matplotlib/Seaborn plotting functions
 │   └── utils.py            # (reserved for shared helpers)
@@ -75,7 +77,7 @@ VaRCalc/
 ### Prerequisites
 
 - Python 3.9+
-- Internet access (for fetching live price data via Yahoo Finance)
+- Internet access and a Polygon.io API key (see API key setup below)
 
 ### Installation
 
