@@ -6,6 +6,9 @@ Polygon. All applicable default values and Polygon credential logic lives here.
 """
 
 from typing import Optional
+import os
+from dotenv import load_dotenv
+
 
 # ----------------------------------------------------------------------
 # Numeric defaults
@@ -40,7 +43,8 @@ class MissingAPIKeyError(RuntimeError):
     """
     Raised when POLYGON_API_KEY is not set.
     """
-
+    
+    _environment_loaded = False
 
 def load_environment(dotenv_path: Optional[str] = None) -> None:
     """
@@ -56,7 +60,14 @@ def load_environment(dotenv_path: Optional[str] = None) -> None:
         the project root, which is what lets `streamlit run gui/app.py` and
         `pytest` from the root both find the same file.
     """
-    raise NotImplementedError("load_environment is not implemented yet")
+    global _environment_loaded
+
+    if not os.path.exists(dotenv_path or ".env"):
+        print("Warning: .env file not found. If you haven't set POLYGON_API_KEY in your environment, you may run into errors.")
+        return
+    
+    load_dotenv(dotenv_path, override=False)
+    _environment_loaded = True
 
 
 def get_api_key() -> str:
@@ -71,7 +82,15 @@ def get_api_key() -> str:
     ------
     MissingAPIKeyError : when POLYGON_API_KEY is unset or empty.
     """
-    raise NotImplementedError("get_api_key is not implemented yet")
+    if not _environment_loaded:
+        load_environment()
+
+    key = os.environ.get(POLYGON_KEY_VAR)
+    if not key:
+        raise MissingAPIKeyError(
+            f"Polygon API key is missing. Please set the {POLYGON_KEY_VAR} environment variable."
+        )
+    return key
 
 
 def has_api_key() -> bool:
@@ -80,4 +99,8 @@ def has_api_key() -> bool:
     Useful for the GUI, which should be able to show a friendly setup prompt instead
     of an exception traceback when the key has not been configured.
     """
-    raise NotImplementedError("has_api_key is not implemented yet")
+    try:
+        get_api_key()
+        return True
+    except MissingAPIKeyError:
+        return False
